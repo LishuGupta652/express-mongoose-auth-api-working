@@ -20,9 +20,7 @@ router.post("/register", async (req, res) => {
   // It took me a while to figure out how to do this.
   // Salt must be integer and bcrypt is responding with a string
   const salt = bcrypt.genSalt(10);
-  const pass = req.body.password.toString();
-  console.log(pass);
-  const hashedPassword = await bcrypt.hash(pass, parseInt(salt));
+  const hashedPassword = await bcrypt.hash(req.body.password, parseInt(salt));
 
   // Create New User
   const user = new User({
@@ -54,6 +52,7 @@ router.post("/login", async (req, res) => {
   if (!validPass) {
     res.status(400).send("Email or password is wrong");
   }
+  res.send("logged in ");
 });
 
 module.exports = router;
