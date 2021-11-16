@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const env = require("dotenv").config();
 // Import routes
 const authRoutes = require("./routes/auth");
+const postRoutes = require("./routes/posts");
 
 // Connnect to Database using mongoose
 mongoose.connect(process.env.MONGODB_URI, () => {
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/app/user", authRoutes);
+app.use("/api/posts", postRoutes);
 // Index Route
 app.get("/", (req, res) => {
   res.send({
