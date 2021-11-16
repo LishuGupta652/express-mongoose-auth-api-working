@@ -40,17 +40,19 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   // Validate the data
   const { error, value } = loginValidation(req.body);
-  if (error) res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
   const { email, password } = req.body;
 
+  // Validating the email
   const user = await User.findOne({ email: email });
   if (!user) {
-    res.status(400).send("Email or password is wrong");
+    return res.status(400).send("Email or password is wrong");
   }
 
+  // Validating the passowrd
   const validPass = await bcrypt.compare(password, user.password);
   if (!validPass) {
-    res.status(400).send("Email or password is wrong");
+    return res.status(400).send("Email or password is wrong");
   }
   res.send("logged in ");
 });
